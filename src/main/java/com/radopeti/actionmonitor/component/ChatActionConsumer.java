@@ -1,5 +1,6 @@
 package com.radopeti.actionmonitor.component;
 
+import com.radopeti.actionmonitor.model.ChatMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,8 +19,8 @@ public class ChatActionConsumer {
     }
 
     @KafkaListener(topics = "${app.kafka.topic.actions.name}")
-    public void processMsg(String content) {
-        logger.info("received message {}", content);
-        template.convertAndSend("/topic/actions", content);
+    public void processMsg(ChatMessage chatMessage) {
+        logger.info("received message {}", chatMessage.getContent());
+        template.convertAndSend("/topic/actions", chatMessage);
     }
 }
