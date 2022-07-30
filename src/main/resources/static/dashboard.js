@@ -4,18 +4,21 @@ function connect() {
     var socket = new SockJS('/action-ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        //setConnected(true);
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/actions', function (message) {
-            console.log("msg", message);
-            showGreeting(message.body);
+        console.log('Connection successful: ' + frame);
+        showSuccessMessage();
+        stompClient.subscribe('/topic/actions', function (action) {
+            showAction(action.body);
         });
     });
 }
 
-function showGreeting(message) {
-    console.log(message);
-    $("#actions").prepend("<tr><td>" + message + "</td></tr>");
+function showAction(action) {
+    console.log(action);
+    $("#actions").prepend("<tr><td>" + action + "</td></tr>");
+}
+
+function showSuccessMessage() {
+    $("#head").text("Actions - (websocket connection established)");
 }
 
 $(document).ready(connect());

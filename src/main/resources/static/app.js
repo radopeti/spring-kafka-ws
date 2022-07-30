@@ -20,7 +20,7 @@ function connect() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/messages', function (message) {
             console.log("msg", message);
-            showGreeting(message.body);
+            showMessage(message.body);
         });
     });
 }
@@ -33,11 +33,11 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
+function sendMessage() {
     stompClient.send("/app/chat", {}, JSON.stringify({'content': $("#message").val()}));
 }
 
-function showGreeting(message) {
+function showMessage(message) {
     console.log(message);
     $("#messages").prepend("<tr><td>" + message + "</td></tr>");
 }
@@ -48,5 +48,5 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    $( "#send" ).click(function() { sendMessage(); });
 });
