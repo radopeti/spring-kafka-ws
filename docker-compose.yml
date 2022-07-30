@@ -1,0 +1,56 @@
+version: '3'
+services:
+  action-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: action-monitor
+    ports:
+    - "8080:8080"
+    depends_on:
+    - kafka-server
+    - db
+    networks:
+    - backend
+    environment:
+    - spring.datasource.url=jdbc:postgresql://db:5432/postgres
+    - spring.datasource.username=user
+    - spring.datasource.password=passw
+    - spring.datasource.driverClassName=org.postgresql.Driver
+    - spring.jpa.hibernate.ddl-auto=update
+    - spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+    - spring.kafka.bootstrap-servers=kafka-server:9092
+    logging:
+      driver: json-file
+
+  kafka-server:
+    image: michaeldqin/kafka
+    hostname: kafka-server
+    ports:
+    - "2181:2181"
+    - "9092:9092"
+    environment:
+    - ADVERTISED_LISTENERS=PLAINTEXT://kafka-server:9092
+    volumes:
+    - ${PWD}/.:/opt/kafka_2.12-1.0.0/log
+    networks:
+    - backend
+    logging:
+      driver: json-file
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: action-monitor-db
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=passw
+      - POSTGRES_DB=postgres
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
