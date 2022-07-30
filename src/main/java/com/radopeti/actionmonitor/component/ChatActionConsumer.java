@@ -1,25 +1,25 @@
 package com.radopeti.actionmonitor.component;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class KafkaReceiver {
+public class ChatActionConsumer {
 
-    @Value("${app.kafka.topic.actions.name}")
-    private String actionsTopicName;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final SimpMessagingTemplate template;
 
-    public KafkaReceiver(SimpMessagingTemplate template) {
+    public ChatActionConsumer(SimpMessagingTemplate template) {
         this.template = template;
     }
 
-    @KafkaListener(topics = "test-topic")
+    @KafkaListener(topics = "${app.kafka.topic.actions.name}")
     public void processMsg(String content) {
-        System.out.println(content);
+        logger.info("received message {}", content);
         template.convertAndSend("/topic/actions", content);
     }
 }
