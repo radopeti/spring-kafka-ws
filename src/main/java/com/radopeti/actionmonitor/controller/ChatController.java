@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final KafkaService kafkaService;
 
@@ -22,7 +22,7 @@ public class ChatController {
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
     public String receiveChatMessage(ChatMessage message) {
-        logger.info(message.getContent());
+        logger.info("chat-message received with content {}", message.getContent());
         kafkaService.sendMsg(message.getContent());
         return message.getContent();
     }
