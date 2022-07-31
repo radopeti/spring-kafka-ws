@@ -9,16 +9,17 @@ docker-compose up -d
 ```
 It will start the backend with a postgres db and a kafka instance.
 
-## Endpoints
-**Chat url**: [http://localhost:8080]
+## Endpoints for interactions
+**Chat url**: [http://localhost:8080] send and receive messages
 
-**Actions**: [http://localhost:8080/action-monitor]
+**Actions**: [http://localhost:8080/action-monitor] display actions
 
+## Exposed actuator endpoints
 **Info**: [http://localhost:8080/actuator/info]
 
-**Status**: [http://localhost:8080/actuator/healt]
+**Status**: [http://localhost:8080/actuator/health]
 
-## Architechture diagram
+## Architecture diagram
 
 ![](./action-monitor.png)
 
