@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: action-monitor
     ports:
-    - "8080:8080"
+    - "8088:8080"
     depends_on:
     - kafka-server
     - db
@@ -27,8 +27,8 @@ services:
     image: michaeldqin/kafka
     hostname: kafka-server
     ports:
-    - "2181:2181"
-    - "9092:9092"
+    - "2182:2181"
+    - "9093:9092"
     environment:
     - ADVERTISED_LISTENERS=PLAINTEXT://kafka-server:9092
     volumes:
@@ -42,7 +42,7 @@ services:
     image: 'postgres:13.1-alpine'
     container_name: action-monitor-db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     restart: always
     environment:
       - POSTGRES_USER=user
