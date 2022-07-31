@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @Component
 public class ChatActionConsumer {
 
+    public static final String DESTINATION = "/topic/actions";
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final SimpMessagingTemplate template;
@@ -29,7 +31,7 @@ public class ChatActionConsumer {
 
     @KafkaListener(topics = "${app.kafka.topic.actions.name}")
     @Transactional
-    public void processMsg(ChatMessage chatMessage) {
+    public void consumeMessage(ChatMessage chatMessage) {
         logger.info("received message {}", chatMessage.getContent());
 
         final Message message = new Message();
@@ -42,6 +44,6 @@ public class ChatActionConsumer {
         chatAction.setTime(LocalDateTime.now());
 
         logger.info("sending action {}", chatAction);
-        template.convertAndSend("/topic/actions", chatAction);
+        template.convertAndSend(DESTINATION, chatAction);
     }
 }
