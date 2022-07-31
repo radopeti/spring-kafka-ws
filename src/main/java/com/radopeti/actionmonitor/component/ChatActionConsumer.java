@@ -31,7 +31,7 @@ public class ChatActionConsumer {
 
     @KafkaListener(topics = "${app.kafka.topic.actions.name}")
     @Transactional
-    public void consumeMessage(ChatMessage chatMessage) {
+    public void processMessage(ChatMessage chatMessage) {
         logger.info("received message {}", chatMessage.getContent());
 
         final Message message = new Message();
