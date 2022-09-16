@@ -1,4 +1,4 @@
-# Action Monitor
+# Spring kafka websocket experiment
 On http://localhost:8088 you can connect to a basic chat app where you can send and receive messages. 
 Press connect to be able to send messages.
 On http://localhost:8088/action-monitor you can watch the actions (now it's only insert) happening inside the application
